@@ -5,13 +5,13 @@ class Event{
     private:
     int time;
     int eventDuration;
-    bool eventType; //can change to isArrival or isDeparture
+    bool isArrival;
 
     public:
     //constructors
     Event();
-    Event(bool eventtype, int newTime);
-    Event(bool eventtype, int newTime, int newDuration);
+    Event(bool newIsArrival, int newTime);
+    Event(bool newIsArrival, int newTime, int newDuration);
     ~Event();
 
     //getters and setters
@@ -19,12 +19,12 @@ class Event{
     int getTime();
     void seteventDuration(int newDuration);
     int geteventDuration();
-    void seteventType(bool newEventType);
-    bool geteventType();
+    void setIsArrival(bool newIsArrival);
+    bool getIsArrival();
 
     //operator overloading
-    Event operator < (const Event& other);
-    Event operator > (const Event& other);
+    bool operator < (const Event& other);
+    bool operator > (const Event& other);
 
 };
 

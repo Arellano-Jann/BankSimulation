@@ -1,5 +1,5 @@
 bank: main.o event.o
-	g++ -o main.o
+	g++ -o main.o bank
 
 main.o: main.cpp aQueue.h pQueue.h
 	g++ -c main.cpp

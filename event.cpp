@@ -3,19 +3,19 @@
 Event::Event(){
     time = 0;
     eventDuration = 0;
-    eventType = false;
+    isArrival = false;
 }
 
-Event::Event(bool eventtype, int newTime){
+Event::Event(bool newIsArrival, int newTime){
     time = newTime;
     eventDuration = 0;
-    eventType = eventtype;
+    isArrival = newIsArrival;
 }
 
-Event::Event(bool eventtype, int newTime, int newDuration){
+Event::Event(bool newIsArrival, int newTime, int newDuration){
     time = newTime;
     eventDuration = newDuration;
-    eventType = eventType;
+    isArrival = newIsArrival;
 }
 
 Event::~Event(){
@@ -37,31 +37,41 @@ void Event::seteventDuration(int newDuration){
 int Event::geteventDuration(){
     return eventDuration;
 }
-void Event::seteventType(bool newEventType){
-    eventType = newEventType;
+void Event::setIsArrival(bool newIsArrival){
+    isArrival = newIsArrival;
 }
 
-bool Event::geteventType(){
-    return eventType;
+bool Event::getIsArrival(){
+    return isArrival;
 }
 
-Event Event::operator < (const Event& other){
-
+bool Event::operator < (const Event& other){
+    return time < other.time;
 }
 
-Event Event::operator > (const Event& other){
-
+bool Event::operator > (const Event& other){
+    return time > other.time;
 }
 
 /*
 
+void load(PQueue eventPriorityQueue){
 
-void load(event priority queue){
+};
+
+parse file to store data into events object and then enqueue events into the priority queue.
+
+void pDeparture(bool tellAvail, PQueue eventPriorityQueue, AQueue eventBanklineQueue){
 
 };
 
-void pDeparture(bool tellAvail, event priority queue, event bankline queue){
-
-};
+Remove departure event from queue. 
+Checks priority queue to see if the bank queue is empty. 
+    If not and a customer is in line, 
+        the new customer will start a transaction with the teller 
+        setting the teller to busy. 
+        The event is changed to a departure event in the priority queue
+    If there is no one in line
+        the teller is free.
 
 */
