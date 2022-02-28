@@ -19,7 +19,7 @@ Event::Event(bool newIsArrival, int newTime, int newDuration){
 }
 
 Event::~Event(){
-    //idk
+    
 }
 
 void Event::setTime(int newTime){
@@ -52,26 +52,3 @@ bool Event::operator < (const Event& other){
 bool Event::operator > (const Event& other){
     return time > other.time;
 }
-
-/*
-
-void load(PQueue eventPriorityQueue){
-
-};
-
-parse file to store data into events object and then enqueue events into the priority queue.
-
-void pDeparture(bool tellAvail, PQueue eventPriorityQueue, AQueue eventBanklineQueue){
-
-};
-
-Remove departure event from queue. 
-Checks priority queue to see if the bank queue is empty. 
-    If not and a customer is in line, 
-        the new customer will start a transaction with the teller 
-        setting the teller to busy. 
-        The event is changed to a departure event in the priority queue
-    If there is no one in line
-        the teller is free.
-
-*/
