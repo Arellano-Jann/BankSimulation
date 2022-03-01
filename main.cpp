@@ -16,7 +16,7 @@ void load(PQueue<T> &peventPriorityQueue){
     std::cin >> filename;
 
     std::ifstream inputfile;
-    inputfile.open(file);
+    inputfile.open(filename);
 
     if(inputfile){  
         while(inputfile){
@@ -25,7 +25,7 @@ void load(PQueue<T> &peventPriorityQueue){
         }
         inputfile.close();
     }else{
-        throw std::runtime_error("File " + file + " could not be opened");
+        throw std::runtime_error("File " + filename + " could not be opened");
     }
 };
 
