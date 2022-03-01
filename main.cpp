@@ -9,19 +9,21 @@
 //parse file to store data into event objects, then enqueue events into the priority queue
 template<typename T>
 void load(PQueue<T> &peventPriorityQueue){
+    std::string filename;
+    int cTime;
+    int eDuration;
+    std::cout << "Enter a filename:" << std::endl;
+    std::cin >> filename;
 
-};
-
-template<typename T>
-void loadFile(std::string file, PQueue<T> &peventPriorityQueue){
     std::ifstream inputfile;
     inputfile.open(file);
 
     if(inputfile){  
         while(inputfile){
-           // inputfile >> cTime >> eDuration;
-                
+           inputfile >> cTime >> eDuration;
+           peventPriorityQueue.enqueue(Event(true, cTime, eDuration));
         }
+        inputfile.close();
     }else{
         throw std::runtime_error("File " + file + " could not be opened");
     }
@@ -48,9 +50,7 @@ int main(){
     std::string filename;
     PQueue<Event> priorityQ;
     try {
-        std::cout << "Enter a filename:" << std::endl;
-        std::cin >> filename;
-        loadFile(filename, priorityQ);
+        load(priorityQ);
 
         //I beleive that u put the rest of ur code in here
         //otherwise, it'll go to the error, we can remove exception
@@ -61,7 +61,5 @@ int main(){
     catch (std::exception &runtime_error) {
         std::cout << runtime_error.what() << std::endl;
     }
-    
-
 
 };
