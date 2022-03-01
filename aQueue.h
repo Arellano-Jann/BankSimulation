@@ -1,11 +1,19 @@
+#ifndef ARR_QUEUE
+#define ARR_QUEUE
+
+#define ARR_SIZE 100
 
 template<typename T>
 class AQueue:public QueueInterface{
-    
+    <typename T> queueArray [];
     public:
-    virtual bool isEmpty() const = 0;
-    virtual bool enqueque(const T& newEntry) = 0;
-    virtual bool dequeue() = 0;
-    virtual T peekFront() const = 0;
-    virtual ~QueueInterface() { }
+        bool isEmpty() const = 0;
+        bool enqueque(const T& newEntry) = 0;
+        bool dequeue() = 0;
+        T peekFront() const = 0;
+        ~QueueInterface() { }
 };
+
+#include "aQueue.cpp"
+
+#endif
