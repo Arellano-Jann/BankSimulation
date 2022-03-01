@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <fstream>
-#include "aQueue.h"
-#include "pQueue.h"
+#include "AQueue.h"
+#include "PQueue.h"
 #include "event.h"
 
 //parse file to store data into event objects, then enqueue events into the priority queue
@@ -31,18 +31,21 @@ void load(PQueue<T> &peventPriorityQueue){
 
 template<typename T>
 void pDeparture(bool tellAvail, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
-
+    Event temp = eventPriorityQueue.peekFront();
+    eventPriorityQueue.dequeue();
+    if(eveventPriorityQueue.isEmpty()){
+        
+    }
 };
 /*
-Remove departure event from queue. 
-Checks priority queue to see if the bank queue is empty. 
-    If not and a customer is in line, 
-        the new customer will start a transaction with the teller 
-        setting the teller to busy. 
-        The event is changed to a departure event in the priority queue
-    If there is no one in line
-        the teller is free.
 
+get event from events priority queue
+decide if there’s a customer in line, 
+    otherwise 
+    teller is free. 
+    If there’s a customer 
+        create departure event and add it to events priority queue, 
+        teller is in use 
 */
 
 int main(){
