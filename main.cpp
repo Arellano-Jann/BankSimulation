@@ -8,6 +8,36 @@
 
 //parse file to store data into event objects, then enqueue events into the priority queue
 template<typename T>
+void load(PQueue<T> &peventPriorityQueue);
+
+template<typename T>
+void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
+
+template<typename T>
+void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
+
+int main(){
+    //all the queues
+    PQueue<Event> priorityQ;
+    int currenttime = 0;
+    bool tellAvail;
+    
+    try {
+        load(priorityQ);
+
+        //I beleive that u put the rest of ur code in here
+        //otherwise, it'll go to the error, we can remove exception
+        //handling if you want - Rubi 
+    }
+
+    //catching error from loadFile just in case
+    catch (std::exception &runtime_error) {
+        std::cout << runtime_error.what() << std::endl;
+    }
+
+};
+
+template<typename T>
 void load(PQueue<T> &peventPriorityQueue){
     std::string filename;
     int cTime;
@@ -27,42 +57,30 @@ void load(PQueue<T> &peventPriorityQueue){
     }else{
         throw std::runtime_error("File " + filename + " could not be opened");
     }
-};
+}
 
 template<typename T>
-void pDeparture(bool tellAvail, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
-    Event temp = eventPriorityQueue.peekFront();
+void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+    Event pTemp = eventPriorityQueue.peekFront();
     eventPriorityQueue.dequeue();
-    if(eveventPriorityQueue.isEmpty()){
-        
+    Event customer = pTemp;
+    if(tellAvail && eventBanklineQueue.isEmpty()){
+
+        tellAvail = false;
+    }else{
+        eventBanklineQueue.enqueque(customer);
     }
-};
-/*
+}
 
-get event from events priority queue
-decide if there’s a customer in line, 
-    otherwise 
-    teller is free. 
-    If there’s a customer 
-        create departure event and add it to events priority queue, 
-        teller is in use 
-*/
-
-int main(){
-    //all variable (incuding all the queues)
-    std::string filename;
-    PQueue<Event> priorityQ;
-    try {
-        load(priorityQ);
-
-        //I beleive that u put the rest of ur code in here
-        //otherwise, it'll go to the error, we can remove exception
-        //handling if you want - Rubi 
+template<typename T>
+void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+    eventPriorityQueue.dequeue();
+    if(!eventBanklineQueue.isEmpty()){
+        Event customer = eventBanklineQueue.peekFront();
+        eventBanklineQueue.dequeque();
+        int departtime = currentTime + customer.getTime();
+        eventPriorityQueue.enqueque(Event(false, departtime));
+    }else{
+        tellAvail = true;
     }
-
-    //catching error from loadFile just in case
-    catch (std::exception &runtime_error) {
-        std::cout << runtime_error.what() << std::endl;
-    }
-
-};
+}

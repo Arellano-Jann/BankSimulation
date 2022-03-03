@@ -9,8 +9,8 @@ template<typename T>
 bool AQueue<T>::enqueque(const T& newEntry){
     bool funcWork = false;
     if(numItems < CAPACITY){
-        back++;
-        queueArray[back];
+        back = (back++) % CAPACITY;
+        queueArray[back] = newEntry;
         numItems++;
         funcWork = true;
     }
@@ -21,7 +21,7 @@ template<typename T>
 bool AQueue<T>::dequeue(){
     bool funcWork = false;
     if(isEmpty == false){
-        front++;
+        front = (front++) % CAPACITY;
         numItems--;
         funcWork = true;
     }

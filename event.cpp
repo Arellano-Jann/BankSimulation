@@ -46,9 +46,13 @@ bool Event::getIsArrival(){
 }
 
 bool Event::operator < (const Event& other){
-    return time < other.time;
+    //validates if the time is the same
+    //arrival has priority over departure event
+    return (time == other.time && isArrival) || time < other.time;
 }
 
 bool Event::operator > (const Event& other){
-    return time > other.time;
+    //validates if the time is the same
+    //arrival has priority over departure event
+    return (time == other.time && isArrival) || time > other.time;
 }

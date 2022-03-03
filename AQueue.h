@@ -11,6 +11,7 @@ class AQueue:public QueueInterface<T>{
         static const int CAPACITY = 100;
         T queueArray [CAPACITY];
     public:
+        ArrayQueue();
         bool isEmpty() const;
         bool enqueque(const T& newEntry);
         bool dequeue();
