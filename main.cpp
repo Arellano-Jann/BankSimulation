@@ -19,15 +19,25 @@ void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBan
 int main(){
     //all the queues
     PQueue<Event> priorityQ;
+    AQueue<Event> bankQ;
     int currenttime = 0;
-    bool tellAvail;
+    bool tellAvail = true;
     
     try {
         load(priorityQ);
+        while(!priorityQ.isEmpty()){
+            Event newEvent= priorityQ.peekFront();
+            currenttime = newEvent.getTime();
 
+            if(newEvent.getIsArrival() == true){
+                //process arrival
+            }else{
+                pDeparture(newEvent, priorityQ, bankQ);
+            }
         //I beleive that u put the rest of ur code in here
         //otherwise, it'll go to the error, we can remove exception
         //handling if you want - Rubi 
+        }
     }
 
     //catching error from loadFile just in case
@@ -61,11 +71,11 @@ void load(PQueue<T> &peventPriorityQueue){
 
 template<typename T>
 void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
-    Event pTemp = eventPriorityQueue.peekFront();
     eventPriorityQueue.dequeue();
     Event customer = pTemp;
     if(tellAvail && eventBanklineQueue.isEmpty()){
-
+        int departtime = currenttime + customer.getTime();
+        eventPriorityQueue.enqueque(Event(false, departtime));
         tellAvail = false;
     }else{
         eventBanklineQueue.enqueque(customer);
@@ -78,9 +88,9 @@ void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBan
     if(!eventBanklineQueue.isEmpty()){
         Event customer = eventBanklineQueue.peekFront();
         eventBanklineQueue.dequeque();
-        int departtime = currentTime + customer.getTime();
+        int departtime = currenttime + customer.getTime();
         eventPriorityQueue.enqueque(Event(false, departtime));
     }else{
-        tellAvail = true;
+        tellerAvail = true;
     }
 }

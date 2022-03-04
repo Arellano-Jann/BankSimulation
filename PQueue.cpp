@@ -13,7 +13,7 @@ bool PQueue<T>::enqueque(const T& newEntry){
     int index = front;
     if(numItems < CAPACITY && numItems != 0){
         for(int i = 0; i < CAPACITY; i++){
-            if(queueArray[i]> newEntry){ //if the entry has higher priority than neew entry
+            if(queueArray[i]< newEntry){ //if the entry has higher priority than new entry
             // back = (back++) % CAPACITY;
             // queueArray[back] = newEntry;
             // numItems++;
