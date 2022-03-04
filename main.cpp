@@ -72,7 +72,7 @@ void load(PQueue<T> &peventPriorityQueue){
 template<typename T>
 void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     eventPriorityQueue.dequeue();
-    Event customer = pTemp;
+    Event customer = aEvent;
     if(tellAvail && eventBanklineQueue.isEmpty()){
         int departtime = currenttime + customer.getTime();
         eventPriorityQueue.enqueque(Event(false, departtime));
