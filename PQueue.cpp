@@ -2,11 +2,11 @@
 
 template<typename T>
 bool PQueue<T>::isEmpty() const{
-    return count == 0; 
+    return numItems == 0; 
 }
 
 template<typename T>
-bool PQueue<T>::enqueque(const T& newEntry){
+bool PQueue<T>::enqueue(const T& newEntry){
     int place = 0;
     bool funcWork = false;
     bool frontMove = false;
@@ -19,7 +19,7 @@ bool PQueue<T>::enqueque(const T& newEntry){
             // numItems++;
                 queueArray[(index-1+CAPACITY)%CAPACITY] = queueArray[i];
                 index++;
-                if(frontMove!){
+                if(!frontMove){
                     front = (front-1+CAPACITY)%CAPACITY;
                     frontMove = false;
                 }
@@ -38,7 +38,7 @@ bool PQueue<T>::enqueque(const T& newEntry){
 template<typename T>
 bool PQueue<T>::dequeue(){
     bool funcWork = false;
-    if(isEmpty == false){
+    if(isEmpty() == false){
         front = (front++) % CAPACITY;
         numItems--;
         funcWork = true;

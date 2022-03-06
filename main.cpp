@@ -4,40 +4,43 @@
 #include <fstream>
 #include "AQueue.h"
 #include "PQueue.h"
-#include "event.h"
+#include "Event.h"
 
 //parse file to store data into event objects, then enqueue events into the priority queue
 template<typename T>
 void load(PQueue<T> &peventPriorityQueue);
 
 template<typename T>
-void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
+void pArrival(Event aEvent, bool &tAvail, int &cTime, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
 
 template<typename T>
-void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
+void pDeparture(Event dEvent, bool &tAvail, int &cTime, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
 
 int main(){
     //all the queues
     PQueue<Event> priorityQ;
     AQueue<Event> bankQ;
-    int currenttime = 0;
+    int currenttime = 0, custServ = 0;
     bool tellAvail = true;
-    
     try {
         load(priorityQ);
+        std::cout<<"Simulation Begins Processing an arrival event at time: " << currenttime<<std::endl;
         while(!priorityQ.isEmpty()){
-            Event newEvent= priorityQ.peekFront();
-            currenttime = newEvent.getTime();
-
+            Event newEvent = priorityQ.peekFront();
+            currenttime += newEvent.getTime();
+            
             if(newEvent.getIsArrival() == true){
-                //process arrival
+                std::cout << "Processing an arrival event at time: " << currenttime << std::endl;
+                pArrival(newEvent, tellAvail, currenttime, priorityQ, bankQ);
+                custServ++;
             }else{
-                pDeparture(newEvent, priorityQ, bankQ);
+                std::cout << "Processing a departure event at time: " << currenttime << std::endl;
+                pDeparture(newEvent, tellAvail, currenttime, priorityQ, bankQ);
+                custServ++;
             }
-        //I beleive that u put the rest of ur code in here
-        //otherwise, it'll go to the error, we can remove exception
-        //handling if you want - Rubi 
         }
+        std::cout << "Final Statistics:\n\tTotalNumber of people processed: " << custServ++ << std::endl;
+        std::cout << "\tAverage amount of time spent waiting: " << std::endl;
     }
 
     //catching error from loadFile just in case
@@ -70,27 +73,27 @@ void load(PQueue<T> &peventPriorityQueue){
 }
 
 template<typename T>
-void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+void pArrival(Event aEvent, bool &tAvail, int &cTime, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     eventPriorityQueue.dequeue();
     Event customer = aEvent;
-    if(tellAvail && eventBanklineQueue.isEmpty()){
-        int departtime = currenttime + customer.getTime();
-        eventPriorityQueue.enqueque(Event(false, departtime));
-        tellAvail = false;
+    if(tAvail && eventBanklineQueue.isEmpty()){
+        int departtime = cTime + customer.getTime();
+        eventPriorityQueue.enqueue(Event(false, departtime));
+        tAvail = false;
     }else{
-        eventBanklineQueue.enqueque(customer);
+        eventBanklineQueue.enqueue(customer);
     }
 }
 
 template<typename T>
-void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+void pDeparture(Event dEvent, bool &tAvail, int &cTime, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     eventPriorityQueue.dequeue();
     if(!eventBanklineQueue.isEmpty()){
         Event customer = eventBanklineQueue.peekFront();
-        eventBanklineQueue.dequeque();
-        int departtime = currenttime + customer.getTime();
-        eventPriorityQueue.enqueque(Event(false, departtime));
+        eventBanklineQueue.dequeue();
+        int departtime = cTime + customer.getTime();
+        eventPriorityQueue.enqueue(Event(false, departtime));
     }else{
-        tellerAvail = true;
+        tAvail = true;
     }
 }

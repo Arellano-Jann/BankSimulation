@@ -11,10 +11,10 @@ class PQueue:public QueueInterface<T>{
         T queueArray [CAPACITY];
     public:
         bool isEmpty() const;
-        bool enqueque(const T& newEntry);
+        bool enqueue(const T& newEntry);
         bool dequeue();
         T peekFront() const;
-        ~PQueue() { }
+        ~PQueue() { };
 };
 
 #include "PQueue.cpp"

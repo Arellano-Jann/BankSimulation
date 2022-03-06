@@ -11,12 +11,11 @@ class AQueue:public QueueInterface<T>{
         static const int CAPACITY = 100;
         T queueArray [CAPACITY];
     public:
-        ArrayQueue();
         bool isEmpty() const;
-        bool enqueque(const T& newEntry);
+        bool enqueue(const T& newEntry);
         bool dequeue();
         T peekFront() const;
-        ~AQueue() { }
+        ~AQueue() { };
 };
 
 #include "AQueue.cpp"

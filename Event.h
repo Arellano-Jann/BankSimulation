@@ -12,7 +12,7 @@ class Event{
     Event();
     Event(bool newIsArrival, int newTime);
     Event(bool newIsArrival, int newTime, int newDuration);
-    ~Event();
+    ~Event() {};
 
     //getters and setters
     void setTime(int newTime);

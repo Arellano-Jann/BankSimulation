@@ -2,11 +2,11 @@
 
 template<typename T>
 bool AQueue<T>::isEmpty() const{
-    return count == 0; 
+    return numItems == 0; 
 }
 
 template<typename T>
-bool AQueue<T>::enqueque(const T& newEntry){
+bool AQueue<T>::enqueue(const T& newEntry){
     bool funcWork = false;
     if(numItems < CAPACITY){
         back = (back++) % CAPACITY;
@@ -20,7 +20,7 @@ bool AQueue<T>::enqueque(const T& newEntry){
 template<typename T>
 bool AQueue<T>::dequeue(){
     bool funcWork = false;
-    if(isEmpty == false){
+    if(isEmpty() == false){
         front = (front++) % CAPACITY;
         numItems--;
         funcWork = true;

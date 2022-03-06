@@ -1,11 +1,11 @@
-bank: main.o event.o
-	g++ -o main.o bank
+bank: main.o Event.o
+	g++ -o bank main.o Event.o
 
 main.o: main.cpp AQueue.h PQueue.h
 	g++ -c main.cpp
 
-event.o: event.cpp event.h
-	g++ -c event.cpp
+Event.o: Event.cpp Event.h
+	g++ -c Event.cpp
 
 clean:
 	rm *.o bank

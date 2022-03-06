@@ -1,9 +1,9 @@
-#include "event.h"
+#include "Event.h"
 
 Event::Event(){
     time = 0;
     eventDuration = 0;
-    isArrival = false;
+    isArrival = true;
 }
 
 Event::Event(bool newIsArrival, int newTime){
@@ -16,10 +16,6 @@ Event::Event(bool newIsArrival, int newTime, int newDuration){
     time = newTime;
     eventDuration = newDuration;
     isArrival = newIsArrival;
-}
-
-Event::~Event(){
-    
 }
 
 void Event::setTime(int newTime){
