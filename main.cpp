@@ -24,9 +24,10 @@ int main(){
     bool tellAvail = true;
     try {
         load(priorityQ);
-        std::cout<<"Simulation Begins Processing an arrival event at time: " << currenttime<<std::endl;
+        std::cout<<"Simulation Begins Processing an arrival event at time: " << priorityQ.peekFront().getTime() <<std::endl;
         while(!priorityQ.isEmpty()){
             Event newEvent = priorityQ.peekFront();
+            std::cout<< newEvent.getTime() <<std::endl;
             currenttime += newEvent.getTime();
             
             if(newEvent.getIsArrival() == true){
@@ -36,10 +37,10 @@ int main(){
             }else{
                 std::cout << "Processing a departure event at time: " << currenttime << std::endl;
                 pDeparture(newEvent, tellAvail, currenttime, priorityQ, bankQ);
-                custServ++;
+                //custServ++;
             }
         }
-        std::cout << "Final Statistics:\n\tTotalNumber of people processed: " << custServ++ << std::endl;
+        std::cout << "Final Statistics:\n\tTotal Number of people processed: " << custServ << std::endl;
         std::cout << "\tAverage amount of time spent waiting: " << std::endl;
     }
 
@@ -62,8 +63,7 @@ void load(PQueue<T> &peventPriorityQueue){
     inputfile.open(filename);
 
     if(inputfile){  
-        while(inputfile){
-           inputfile >> cTime >> eDuration;
+        while(inputfile >> cTime >> eDuration){
            peventPriorityQueue.enqueue(Event(true, cTime, eDuration));
         }
         inputfile.close();
@@ -75,13 +75,12 @@ void load(PQueue<T> &peventPriorityQueue){
 template<typename T>
 void pArrival(Event aEvent, bool &tAvail, int &cTime, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     eventPriorityQueue.dequeue();
-    Event customer = aEvent;
     if(tAvail && eventBanklineQueue.isEmpty()){
-        int departtime = cTime + customer.getTime();
+        int departtime = cTime + aEvent.getTime();
         eventPriorityQueue.enqueue(Event(false, departtime));
         tAvail = false;
     }else{
-        eventBanklineQueue.enqueue(customer);
+        eventBanklineQueue.enqueue(aEvent);
     }
 }
 
