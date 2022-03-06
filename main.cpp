@@ -64,7 +64,7 @@ void load(PQueue<T> &peventPriorityQueue){
 
     if(inputfile){  
         while(inputfile >> cTime >> eDuration){
-           peventPriorityQueue.enqueue(Event(true, cTime, eDuration));
+            peventPriorityQueue.enqueue(Event(true, cTime, eDuration));
         }
         inputfile.close();
     }else{
