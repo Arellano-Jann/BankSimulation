@@ -21,10 +21,10 @@ int main(){
     //all the queues
     PQueue<Event> priorityQ;
     AQueue<Event> bankQ;
-    int custServ = 0;
-    int currenttime = 0;
+    static int custServ = 0;
+    static int currenttime = 0;
     bool tellerAvail = true;
-    float waitTime = 0;
+    static float waitTime = 0;
     try {
         load(priorityQ);
         std::cout<<"Simulation Begins Processing an arrival event at time: " << priorityQ.peekFront().getTime() <<std::endl;
@@ -52,11 +52,11 @@ int main(){
 //function implementation
 template<typename T>
 void load(PQueue<T> &peventPriorityQueue){
-    std::string filename;
+    std::string filename = "text.txt";
     int cTime;
     int eDuration;
     std::cout << "Enter a filename:" << std::endl;
-    std::cin >> filename;
+    // std::cin >> filename;
 
     std::ifstream inputfile;
     inputfile.open(filename);
@@ -75,12 +75,14 @@ template<typename T>
 void pArrival(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     Event aEvent = eventPriorityQueue.peekFront();
     std::cout << "Processing an arrival event at time: " << currentTime << std::endl;
+    std::cout << aEvent.geteventDuration();
     if(tellAvail && eventBanklineQueue.isEmpty()){
         int dTime = currentTime + aEvent.geteventDuration();
         eventPriorityQueue.enqueue(Event(false, dTime));
         tellAvail = false;
     }else{
         eventBanklineQueue.enqueue(aEvent);
+        std::cout << "RRRR ";
     }
     eventPriorityQueue.dequeue();
 }
@@ -89,13 +91,17 @@ template<typename T>
 void pDeparture(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     Event dEvent = eventPriorityQueue.peekFront();
     eventPriorityQueue.dequeue();
+    std::cout << "D ";
     if(!eventBanklineQueue.isEmpty()){
+        std::cout << eventBanklineQueue.peekFront().geteventDuration() << "X " ;
         int dTime = currentTime + eventBanklineQueue.peekFront().geteventDuration();
         eventPriorityQueue.enqueue(Event(false, dTime));
         wait = currentTime - dEvent.geteventDuration();
+        std::cout << dTime << "D " << currentTime << "C " << wait << "W ";
         eventBanklineQueue.dequeue();
     }else{
         tellAvail = true;
+        std::cout << "D "; 
     }
     std::cout << "Processing a departure event at time: " << currentTime << std::endl;
 }

@@ -11,9 +11,9 @@ bool PQueue<T>::enqueue(const T& newEntry){
     if (numItems < CAPACITY && numItems != 0){
         for (int i = back; i >= 0; i--){
             if (queueArray[i] < newEntry){
-                numItems++;
                 back = (back+1)%CAPACITY;
                 queueArray[i+1] = newEntry;
+                numItems++;
                 funcWork = true;
                 return funcWork;
             }else{

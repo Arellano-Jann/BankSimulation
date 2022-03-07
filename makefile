@@ -1,3 +1,5 @@
+all: bank
+
 bank: main.o Event.o
 	g++ -o bank main.o Event.o
 

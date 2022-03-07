@@ -12,10 +12,11 @@ bool AQueue<T>::enqueue(const T& newEntry){
         back = (back + 1) % CAPACITY;
         queueArray[back] = newEntry;
         funcWork = true;
-    } else{
-        queueArray[back] = newEntry;
-    }
     numItems++;
+    } else{
+        // queueArray[back] = newEntry;
+    }
+    // numItems++;
     return funcWork;
 }
 
