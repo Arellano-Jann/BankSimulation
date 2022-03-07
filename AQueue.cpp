@@ -8,7 +8,7 @@ bool AQueue<T>::isEmpty() const{
 template<typename T>
 bool AQueue<T>::enqueue(const T& newEntry){
     bool funcWork = false;
-    if(numItems < CAPACITY && numItems > 0){
+    if(numItems < CAPACITY && numItems >= 0){
         back = (back + 1) % CAPACITY;
         queueArray[back] = newEntry;
         funcWork = true;
