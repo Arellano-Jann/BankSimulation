@@ -1,5 +1,4 @@
 #include "PQueue.h"
-#include "Event.h"
 template<typename T>
 bool PQueue<T>::isEmpty() const{
     return numItems == 0; 

@@ -6,43 +6,40 @@
 #include "PQueue.h"
 #include "Event.h"
 
-//variables
-int currenttime = 0;
-bool tellAvail = true;
-float wait = 0;
-
 //parse file to store data into event objects, then enqueue events into the priority queue
 template<typename T>
 void load(PQueue<T> &peventPriorityQueue);
 
 template<typename T>
-void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
+void pArrival(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
 
 template<typename T>
-void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
+void pDeparture(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
 
+    int custServ = 0;
+    int currenttime = 0;
+    bool tellerAvail = true;
+    float waitTime = 0;
 int main(){
     //all the queues
     PQueue<Event> priorityQ;
     AQueue<Event> bankQ;
-    int custServ = 0;
+
     try {
         load(priorityQ);
         std::cout<<"Simulation Begins Processing an arrival event at time: " << priorityQ.peekFront().getTime() <<std::endl;
         while(!priorityQ.isEmpty()){
             Event newEvent = priorityQ.peekFront();
-            std::cout<< newEvent.getIsArrival() <<newEvent.getTime() <<newEvent.geteventDuration()<<std::endl;
             currenttime = newEvent.getTime();
-            std::cout<<currenttime<<std::endl;
             if(newEvent.getIsArrival() == true && newEvent.getTime() != 0 && newEvent.geteventDuration() != 0){
-                pArrival(newEvent, priorityQ, bankQ);
+                pArrival(currenttime, tellerAvail, waitTime, priorityQ, bankQ);
                 custServ++;
             }else if(newEvent.getIsArrival()==false){
-                pDeparture(newEvent, priorityQ, bankQ);
+                pDeparture(currenttime, tellerAvail, waitTime, priorityQ, bankQ);
             }else break;
         }
         std::cout << "Final Statistics:\n\tTotal Number of people processed: " << custServ << std::endl;
-        std::cout << "\tAverage amount of time spent waiting: " << wait/custServ << std::endl;
+        std::cout << "\tAverage amount of time spent waiting: " << waitTime/custServ << std::endl;
     }
 
     //catching error from loadFile just in case
@@ -75,10 +72,11 @@ void load(PQueue<T> &peventPriorityQueue){
 }
 
 template<typename T>
-void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
-    std::cout << "Processing an arrival event at time: " << currenttime << std::endl;
+void pArrival(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+    Event aEvent = eventPriorityQueue.peekFront();
+    std::cout << "Processing an arrival event at time: " << currentTime << std::endl;
     if(tellAvail && eventBanklineQueue.isEmpty()){
-        int dTime = currenttime + aEvent.geteventDuration();
+        int dTime = currentTime + aEvent.geteventDuration();
         eventPriorityQueue.enqueue(Event(false, dTime));
         tellAvail = false;
     }else{
@@ -88,16 +86,16 @@ void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBankl
 }
 
 template<typename T>
-void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+void pDeparture(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
+    Event dEvent = eventPriorityQueue.peekFront();
     eventPriorityQueue.dequeue();
     if(!eventBanklineQueue.isEmpty()){
-        int dTime = currenttime + eventBanklineQueue.peekFront().geteventDuration();
+        int dTime = currentTime + eventBanklineQueue.peekFront().geteventDuration();
         eventPriorityQueue.enqueue(Event(false, dTime));
-        std::cout << dEvent.geteventDuration() <<std::endl;
-        wait = currenttime - dEvent.geteventDuration();
+        wait = currentTime - dEvent.geteventDuration();
         eventBanklineQueue.dequeue();
     }else{
         tellAvail = true;
     }
-    std::cout << "Processing a departure event at time: " << currenttime << std::endl;
+    std::cout << "Processing a departure event at time: " << currentTime << std::endl;
 }
