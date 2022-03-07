@@ -5,9 +5,9 @@
 template<typename T>
 class AQueue:public QueueInterface<T>{
     private:
-        int front;
-        int back;
-        int numItems;
+        int front = 0;
+        int back = 0;
+        int numItems = 0;
         static const int CAPACITY = 100;
         T queueArray [CAPACITY];
     public:

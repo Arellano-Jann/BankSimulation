@@ -5,7 +5,7 @@ template<typename T>
 class PQueue:public QueueInterface<T>{
     private:
         int front = 0;
-        int back = 100;
+        int back = 0;
         int numItems = 0;
         static const int CAPACITY = 100;
         T queueArray [CAPACITY];

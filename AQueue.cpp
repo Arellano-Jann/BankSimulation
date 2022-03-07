@@ -8,12 +8,14 @@ bool AQueue<T>::isEmpty() const{
 template<typename T>
 bool AQueue<T>::enqueue(const T& newEntry){
     bool funcWork = false;
-    if(numItems < CAPACITY){
-        back = (back++) % CAPACITY;
+    if(numItems < CAPACITY && numItems > 0){
+        back = (back + 1) % CAPACITY;
         queueArray[back] = newEntry;
-        numItems++;
         funcWork = true;
+    } else{
+        queueArray[back] = newEntry;
     }
+    numItems++;
     return funcWork;
 }
 
@@ -21,7 +23,7 @@ template<typename T>
 bool AQueue<T>::dequeue(){
     bool funcWork = false;
     if(isEmpty() == false){
-        front = (front++) % CAPACITY;
+        front = (front + 1) % CAPACITY;
         numItems--;
         funcWork = true;
     }
