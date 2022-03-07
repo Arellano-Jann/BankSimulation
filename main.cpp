@@ -31,13 +31,14 @@ int main(){
         std::cout<<"Simulation Begins Processing an arrival event at time: " << priorityQ.peekFront().getTime() <<std::endl;
         while(!priorityQ.isEmpty()){
             Event newEvent = priorityQ.peekFront();
-            
+            std::cout<< newEvent.getIsArrival() <<newEvent.getTime() <<newEvent.geteventDuration()<<std::endl;
+            currenttime = newEvent.getTime();
+            std::cout<<currenttime<<std::endl;
             if(newEvent.getIsArrival() == true && newEvent.getTime() != 0 && newEvent.geteventDuration() != 0){
                 pArrival(newEvent, priorityQ, bankQ);
                 custServ++;
             }else if(newEvent.getIsArrival()==false){
                 pDeparture(newEvent, priorityQ, bankQ);
-                // std::cout << "Processing a departure event at time: " << currenttime << std::endl;
             }else break;
         }
         std::cout << "Final Statistics:\n\tTotal Number of people processed: " << custServ << std::endl;
@@ -75,38 +76,28 @@ void load(PQueue<T> &peventPriorityQueue){
 
 template<typename T>
 void pArrival(Event aEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
-    eventPriorityQueue.dequeue();
-    currenttime = aEvent.getTime();
     std::cout << "Processing an arrival event at time: " << currenttime << std::endl;
     if(tellAvail && eventBanklineQueue.isEmpty()){
-        // currenttime += aEvent.geteventDuration();
-        // std:: cout << "Time in if-statement (pArrival): " << currenttime << std::endl;
         int dTime = currenttime + aEvent.geteventDuration();
         eventPriorityQueue.enqueue(Event(false, dTime));
         tellAvail = false;
     }else{
         eventBanklineQueue.enqueue(aEvent);
     }
+    eventPriorityQueue.dequeue();
 }
 
 template<typename T>
 void pDeparture(Event dEvent, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue){
     eventPriorityQueue.dequeue();
-    //std::cout << "Time in pDepart1: " << depTime << std::endl;
     if(!eventBanklineQueue.isEmpty()){
-        Event customer = eventBanklineQueue.peekFront();
         int dTime = currenttime + eventBanklineQueue.peekFront().geteventDuration();
         eventPriorityQueue.enqueue(Event(false, dTime));
-        wait += currenttime - dEvent.geteventDuration();
+        std::cout << dEvent.geteventDuration() <<std::endl;
+        wait = currenttime - dEvent.geteventDuration();
         eventBanklineQueue.dequeue();
-        // if(currenttime < customer.getTime()){
-        //     currenttime = customer.getTime();
-        // }
-        //currenttime += customer.geteventDuration();
-
-        //eventPriorityQueue.enqueue(Event(false, currenttime));
     }else{
         tellAvail = true;
     }
-    std::cout << "Time in pDepart: " << currenttime << std::endl;
+    std::cout << "Processing a departure event at time: " << currenttime << std::endl;
 }
