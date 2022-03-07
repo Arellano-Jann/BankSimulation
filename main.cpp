@@ -16,15 +16,15 @@ void pArrival(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPr
 template<typename T>
 void pDeparture(int &currentTime, bool &tellAvail, float &wait, PQueue<T> &eventPriorityQueue, AQueue<T> &eventBanklineQueue);
 
-    int custServ = 0;
-    int currenttime = 0;
-    bool tellerAvail = true;
-    float waitTime = 0;
+
 int main(){
     //all the queues
     PQueue<Event> priorityQ;
     AQueue<Event> bankQ;
-
+    int custServ = 0;
+    int currenttime = 0;
+    bool tellerAvail = true;
+    float waitTime = 0;
     try {
         load(priorityQ);
         std::cout<<"Simulation Begins Processing an arrival event at time: " << priorityQ.peekFront().getTime() <<std::endl;
